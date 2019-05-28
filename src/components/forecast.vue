@@ -3,22 +3,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 offset-sm-3">
-<div class="wrap">
-    <img src="../assets/rain.png" style="    
-    width: 70px;
-    margin-bottom: 20px;
-    margin-top: 15px;
-    margin-left: 10px;"/>
-                       <select class="form-control weather-select" v-model="selectedCity">
-            <option disabled selected value="">Please select city </option>
-            <option value="51.5074,0.1278">London</option>
-            <option value="35.6762,139.6503">Tokyo</option>
-            <option value="40.7128,74.0060">New York</option>
-            <option value="25.2048,55.2708">Dubai</option>
-        </select>
-             <div style="margin-top: 15px;" v-if="temperature"><span class="cc">temperature</span> <div class="temp">{{ temperature }} <sup class="sup">°F</sup></div></div>
-             <div v-if="summary"> <div class="c-font"> <img class="qq" src="../assets/111.png"/>{{ summary }}</div> </div>
-</div>
+                    <div class="wrap">
+                        <img src="../assets/rain.png" style="    
+                                                width: 70px;
+                                                margin-bottom: 20px;
+                                                margin-top: 15px;
+                                                margin-left: 10px;"/>
+                        <select class="form-control weather-select" v-model="selectedCity">
+                            <option disabled selected value="">Please select city </option>
+                            <option value="51.5074,0.1278">London</option>
+                            <option value="35.6762,139.6503">Tokyo</option>
+                            <option value="40.7128,74.0060">New York</option>
+                            <option value="25.2048,55.2708">Dubai</option>
+                        </select>
+                        <div style="margin-top: 15px;" v-if="temperature"><span class="cc">temperature</span> <div class="temp">{{ temperature }} <sup class="sup">°F</sup></div></div>
+                        <div v-if="summary"> <div class="c-font"> <img class="qq" src="../assets/111.png"/>{{ summary }}</div> </div>
+                    </div>
                 </div>
             </div>
          
@@ -41,19 +41,14 @@ export default {
         }
     },
     watch: {
-        selectedCity: async function (city) {
+        selectedCity: function (city) {
             var coordinates = city.split(',');
             var url = 'https://cors-anywhere.herokuapp.com/'+'https://api.darksky.net/forecast/d6f6dd486e6795355ef8827e6e8c6b9c/'+coordinates[0]+','+ coordinates[1];
-            await axios
-            .get(url)
-            .then(response => {
-                var temperature = response.data.currently.temperature;
-                this.temperature = temperature;
-                var summary = response.data.currently.summary;
-                this.summary = summary;
+            axios.get(url).then( response => {
+                this.temperature = response.data.currently.temperature;
+                this.summary = response.data.currently.summary;
             })
-            .finally() 
-        }
+        },
     },
 
 }
